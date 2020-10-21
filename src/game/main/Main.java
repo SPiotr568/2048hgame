@@ -16,6 +16,7 @@ public class Main extends Application {
         StackPane stackPane = loader.load();
         Scene scene = new Scene(stackPane, 600, 400);
         primaryStage.setScene(scene);
+        scene.getStylesheets().addAll(this.getClass().getResource("/game/styles/Menu.css").toExternalForm());
         primaryStage.setTitle("2048game");
         primaryStage.setResizable(false);
         primaryStage.show();

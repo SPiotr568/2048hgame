@@ -19,9 +19,9 @@
          </font>
       </Button>
       <AmbientLight color="CHARTREUSE" layoutX="56.0" layoutY="106.0" lightOn="true" />
-      <Label layoutX="120.0" layoutY="88.0" text="Hello in 2048 GAME">
+      <Label alignment="CENTER" layoutX="110.0" layoutY="88.0" prefHeight="53.0" prefWidth="373.0" text="2048 GAME">
          <font>
-            <Font size="43.0" />
+            <Font size="50.0" />
          </font>
       </Label>
    </children>
