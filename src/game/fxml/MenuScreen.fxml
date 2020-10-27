@@ -8,12 +8,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controllers.MenuController">
    <children>
-      <Button layoutX="110.0" layoutY="200.0" mnemonicParsing="false" onAction="#newGame" prefHeight="56.0" prefWidth="161.0" text="New Game">
+      <Button fx:id="newGameButton" layoutX="110.0" layoutY="200.0" mnemonicParsing="false" onAction="#newGame" prefHeight="56.0" prefWidth="161.0" text="New Game">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button layoutX="319.0" layoutY="200.0" mnemonicParsing="false" onAction="#openResults" prefHeight="56.0" prefWidth="161.0" text="Results">
+      <Button fx:id="resultsButton" layoutX="319.0" layoutY="200.0" mnemonicParsing="false" onAction="#openResults" prefHeight="56.0" prefWidth="161.0" text="Results">
          <font>
             <Font size="24.0" />
          </font>
