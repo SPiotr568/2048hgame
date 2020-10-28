@@ -1,9 +1,12 @@
 package game.controllers;
 
+import game.main.Game;
 import game.main.Timer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+
 import java.awt.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -14,6 +17,7 @@ public class GameController {
     private MainController mainController;
     private FXMLLoader loader;
     private Timer time;
+    private Game game;
     private ExecutorService threadPool;
 
     @FXML
@@ -21,6 +25,9 @@ public class GameController {
 
     @FXML
     public Label timerLabel;
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     private void initialize() {
@@ -35,20 +42,25 @@ public class GameController {
 
     @FXML
     public void endGame(){
-        mainController.loadMenuScreen();
         threadPool.shutdown();
+        mainController.loadMenuScreen();
     }
 
 
-    public void setLabelText(String text){
+    public void setTimerLabel(String text){
         timerLabel.setText(text);
+    }
+
+    public void setScoreLabel(String text){
+        scoreLabel.setText(text);
     }
 
     public void startGame(){
         threadPool = Executors.newCachedThreadPool();
         time = new Timer();
         time.setTimerLabel(timerLabel);
-
+        game = new Game(gridPane);
         threadPool.submit(time);
+        threadPool.submit(game);
     }
 }

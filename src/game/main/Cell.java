@@ -3,10 +3,12 @@ package game.main;
 public class Cell {
     private final int x;
     private final int y;
+    private int value;
 
-    public Cell(int x, int y) {
+    public Cell(int x, int y, int value) {
         this.x = x;
         this.y = y;
+        this.value=value;
     }
 
     @Override
@@ -14,7 +16,8 @@ public class Cell {
         return "Cell{" +
                 "x=" + x +
                 ", y=" + y +
-                '}';
+                '}' +
+                ", value: "+this.value;
     }
 
     public int getX() {
@@ -23,5 +26,9 @@ public class Cell {
 
     public int getY() {
         return y;
+    }
+
+    public int getValue(){
+        return this.value;
     }
 }

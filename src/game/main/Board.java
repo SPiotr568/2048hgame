@@ -6,8 +6,11 @@ import java.util.List;
 public class Board {
     private final int[][] board;
     private final int score;
+    private boolean win=false;
+    private boolean lose = false;
+    public static final int WIN_VALUE = 2048;
 
-    public Board(int[][] board, int score) {
+    public Board() {
         this.board = new int[4][4];
         this.score = 0;
 
@@ -34,7 +37,7 @@ public class Board {
         return getCell(c) == 0;
     }
 
-    public List<Cell> emptyCells() {
+    /*public List<Cell> emptyCells() {
         List<Cell> result = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -45,5 +48,5 @@ public class Board {
             }
         }
         return result;
-    }
+    }*/
 }
