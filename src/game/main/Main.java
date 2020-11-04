@@ -20,6 +20,7 @@ public class Main extends Application {
         primaryStage.setTitle("2048game");
         primaryStage.setResizable(false);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(e -> System.exit(0));
     }
 
 

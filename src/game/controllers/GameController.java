@@ -18,7 +18,8 @@ public class GameController {
     private FXMLLoader loader;
     private Timer time;
     private Game game;
-    private ExecutorService threadPool;
+    private ExecutorService threadPoolGame;
+    private ExecutorService threadPoolEnd;
 
     @FXML
     private Label scoreLabel;
@@ -42,7 +43,7 @@ public class GameController {
 
     @FXML
     public void endGame(){
-        threadPool.shutdown();
+        threadPoolGame.shutdown();
         mainController.loadMenuScreen();
     }
 
@@ -56,11 +57,19 @@ public class GameController {
     }
 
     public void startGame(){
-        threadPool = Executors.newCachedThreadPool();
+        threadPoolGame = Executors.newCachedThreadPool();
         time = new Timer();
         time.setTimerLabel(timerLabel);
         game = new Game(gridPane);
-        threadPool.submit(time);
-        threadPool.submit(game);
+        threadPoolGame.submit(time);
+        threadPoolGame.submit(game);
+    }
+
+    public void gameOver(){
+        threadPoolGame.shutdown();
+        threadPoolEnd = Executors.newCachedThreadPool();
+        threadPoolEnd.shutdown();
+        //sent score to db
+        //show ScoreScreen
     }
 }

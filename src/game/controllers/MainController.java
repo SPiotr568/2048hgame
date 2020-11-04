@@ -20,7 +20,6 @@ public class MainController {
     }
 
     void loadMenuScreen() {
-        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/game/fxml/MenuScreen.fxml"));
         Pane pane = null;
         try {
@@ -31,7 +30,6 @@ public class MainController {
         MenuController menuController = loader.getController();
         menuController.setMainController(this);
         setScreen(pane);
-        stage.setOnCloseRequest(e -> Platform.exit());
     }
 
     void setScreen(Pane pane) {
