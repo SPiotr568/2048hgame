@@ -5,25 +5,24 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controllers.ScoreController">
    <children>
-      <Label layoutX="96.0" layoutY="101.0" prefHeight="63.0" prefWidth="214.0" text="Your score">
+      <Label layoutX="96.0" layoutY="101.0" prefHeight="63.0" prefWidth="232.0" text="Your score:">
          <font>
-            <Font size="42.0" />
+            <Font size="48.0" />
          </font>
       </Label>
-      <Button layoutX="76.0" layoutY="216.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="203.0" text="NEW GAME">
+      <Button fx:id="newGameReset" layoutX="76.0" layoutY="216.0" mnemonicParsing="false" onAction="#newGame" prefHeight="49.0" prefWidth="203.0" text="NEW GAME">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button layoutX="310.0" layoutY="216.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="203.0" text="RESULTS">
+      <Button fx:id="menuButton" layoutX="310.0" layoutY="216.0" mnemonicParsing="false" onAction="#backMenu" prefHeight="49.0" prefWidth="203.0" text="MENU">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutX="310.0" layoutY="101.0" prefHeight="63.0" prefWidth="156.0" text="0">
+      <Label fx:id="scoreLabel" alignment="CENTER" layoutX="310.0" layoutY="101.0" prefHeight="63.0" prefWidth="156.0" text="0">
          <font>
             <Font size="50.0" />
          </font>

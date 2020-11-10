@@ -10,6 +10,8 @@ public class ResultsController {
         this.mainController = mainController;
     }
 
+    //in future: add requests to db and show table (different threads)
+
     @FXML
     public void backMenu(){
         mainController.loadMenuScreen();

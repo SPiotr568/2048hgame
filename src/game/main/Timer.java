@@ -1,11 +1,8 @@
 package game.main;
 
-
+import game.controllers.GameController;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 
 import static java.lang.StrictMath.floor;
 
@@ -16,21 +13,26 @@ public class Timer extends Thread{
     private int min;
     private int sec;
     private boolean exit;
+    private GameController gameController;
 
-    public Timer() {
+    public Timer(GameController gameController) {
         stopTimer();
         time = 0;
         min = 0;
         sec = 0;
         exit = false;
+        this.gameController=gameController;
     }
 
     @Override
     public void run() {
         try {
             while(time<10000 && !exit){
-                Thread.sleep(1000);
                 time += 1;
+                if(time>4){
+                    gameController.gameOver();
+                }
+                Thread.sleep(1000);
                 setTimer(time);
             }
         } catch (InterruptedException e) {

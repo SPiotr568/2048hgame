@@ -32,7 +32,7 @@ public class MainController {
         setScreen(pane);
     }
 
-    void setScreen(Pane pane) {
+    public void setScreen(Pane pane) {
         mainStackPane.getChildren().clear();
         mainStackPane.getChildren().add(pane);
     }
