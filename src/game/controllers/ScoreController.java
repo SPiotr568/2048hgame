@@ -17,6 +17,9 @@ public class ScoreController {
     @FXML
     private Label scoreLabel;
 
+    @FXML
+    private Label nickLabel;
+
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
@@ -32,7 +35,11 @@ public class ScoreController {
 
     public void setNick(String nick) {
         this.nick = nick;
-        System.out.println(nick);
+        setNickLabel();
+    }
+
+    public void setNickLabel() {
+        nickLabel.setText(this.nick);
     }
 
     @FXML
@@ -53,8 +60,6 @@ public class ScoreController {
         gameController.setMainController(mainController);
         gameController.setNick(nick);
         Pane finalPane = pane;
-        Platform.runLater( () -> {
-            mainController.setScreen(finalPane);
-        });
+        Platform.runLater( () -> mainController.setScreen(finalPane));
     }
 }

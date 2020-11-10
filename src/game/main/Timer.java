@@ -29,14 +29,14 @@ public class Timer extends Thread{
         try {
             while(time<10000 && !exit){
                 time += 1;
+                Thread.sleep(1000);
                 if(time>4){
                     gameController.gameOver();
                 }
-                Thread.sleep(1000);
                 setTimer(time);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Timer stopped");
         }
     }
 

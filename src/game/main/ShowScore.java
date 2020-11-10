@@ -1,6 +1,5 @@
 package game.main;
 
-import game.controllers.GameController;
 import game.controllers.MainController;
 import game.controllers.ScoreController;
 import javafx.application.Platform;
@@ -39,9 +38,7 @@ public class ShowScore extends Thread {
         scoreController.setNick(nick);
         scoreController.setScore(score);
         Pane finalPane = pane;
-        Platform.runLater(() -> {
-            mainController.setScreen(finalPane);
-        });
+        Platform.runLater(() -> mainController.setScreen(finalPane));
         System.out.println("stopSS");
     }
 

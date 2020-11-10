@@ -1,6 +1,7 @@
 package game.controllers;
 
 import game.main.Game;
+import game.main.SendToDB;
 import game.main.ShowScore;
 import game.main.Timer;
 import javafx.fxml.FXML;
@@ -17,6 +18,7 @@ public class GameController {
     private Timer time;
     private Game game;
     private ShowScore scoreThread;
+    private SendToDB sendToDBThread;
     private ExecutorService threadPoolGame;
     private ExecutorService threadPoolEnd;
     private String nick;
@@ -73,11 +75,14 @@ public class GameController {
     public void gameOver() {
         threadPoolGame.shutdownNow();
         threadPoolEnd = Executors.newCachedThreadPool();
+        //sent score to db
+        sendToDBThread = new SendToDB();
+        threadPoolEnd.submit(sendToDBThread);
+
         //show ScoreScreen
         scoreThread = new ShowScore(scoreLabel.getText(), nick);
         scoreThread.setMainController(mainController);
         threadPoolEnd.submit(scoreThread);
-        //sent score to db
 
         threadPoolEnd.shutdown();
     }
