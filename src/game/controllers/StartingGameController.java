@@ -32,7 +32,7 @@ public class StartingGameController {
     @FXML
     public void startGame(){
         if(nick.getText().isEmpty()){
-            errorLabel.setText("Error, please enter your nick again!");
+            errorLabel.setText("Error!! Please enter your nick again!");
         }
         else {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/game/fxml/GameScreen.fxml"));
@@ -44,6 +44,7 @@ public class StartingGameController {
             }
             GameController gameController = loader.getController();
             gameController.setMainController(mainController);
+            gameController.setNick(nick.getText());
             mainController.setScreen(pane);
         }
     }

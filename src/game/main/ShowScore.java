@@ -12,6 +12,13 @@ import java.io.IOException;
 public class ShowScore extends Thread {
 
     private MainController mainController;
+    private String nick;
+    private String score;
+
+    public ShowScore(String score, String nick) {
+        this.nick = nick;
+        this.score = score;
+    }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -29,11 +36,12 @@ public class ShowScore extends Thread {
         }
         ScoreController scoreController = loader.getController();
         scoreController.setMainController(mainController);
+        scoreController.setNick(nick);
+        scoreController.setScore(score);
         Pane finalPane = pane;
-        Platform.runLater( () -> {
+        Platform.runLater(() -> {
             mainController.setScreen(finalPane);
         });
-
         System.out.println("stopSS");
     }
 
