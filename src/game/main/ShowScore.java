@@ -25,7 +25,6 @@ public class ShowScore extends Thread {
 
     @Override
     public void run() {
-        System.out.println("startSS");
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/game/fxml/ScoreScreen.fxml"));
         Pane pane = null;
         try {
@@ -39,7 +38,6 @@ public class ShowScore extends Thread {
         scoreController.setScore(score);
         Pane finalPane = pane;
         Platform.runLater(() -> mainController.setScreen(finalPane));
-        System.out.println("stopSS");
     }
 
 }

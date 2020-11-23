@@ -1,16 +1,11 @@
 package game.main;
 
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-
-import java.awt.*;
 import java.util.Random;
 
 public class Game extends Thread{
@@ -44,6 +39,8 @@ public class Game extends Thread{
                 }
             }
         }
+
+        this.gridPane.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new Controls());
     }
 
 

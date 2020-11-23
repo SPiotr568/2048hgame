@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.concurrent.Semaphore;
 
 public class ScoreController {
     private MainController mainController;
@@ -49,6 +50,18 @@ public class ScoreController {
 
     @FXML
     public void newGame(){
+        final Semaphore mutex = new Semaphore(1);
+        try {
+            mutex.acquire();
+            runGame();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            mutex.release();
+        }
+    }
+
+    public void runGame(){
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/game/fxml/GameScreen.fxml"));
         Pane pane = null;
         try {

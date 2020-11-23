@@ -34,7 +34,7 @@ public class GameController {
 
     @FXML
     private void initialize() {
-        scoreLabel.setText("2048");
+        scoreLabel.setText("0");
         timerLabel.setText("0:00");
         startGame();
     }
@@ -68,10 +68,8 @@ public class GameController {
         game = new Game(gridPane);
         threadPoolGame.submit(time);
         threadPoolGame.submit(game);
-        //gameOver();
     }
 
-    @FXML
     public void gameOver() {
         threadPoolGame.shutdownNow();
         threadPoolEnd = Executors.newCachedThreadPool();
