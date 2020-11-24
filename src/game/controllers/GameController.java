@@ -1,12 +1,11 @@
 package game.controllers;
 
-import game.main.Game;
-import game.main.SendToDB;
-import game.main.ShowScore;
-import game.main.Timer;
+import game.main.*;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -72,6 +71,8 @@ public class GameController {
 
     public void gameOver() {
         threadPoolGame.shutdownNow();
+        gridPane.getScene().removeEventFilter(KeyEvent.KEY_PRESSED, game.getControls());
+
         threadPoolEnd = Executors.newCachedThreadPool();
         //sent score to db
         sendToDBThread = new SendToDB();
@@ -80,8 +81,8 @@ public class GameController {
         //show ScoreScreen
         scoreThread = new ShowScore(scoreLabel.getText(), nick);
         scoreThread.setMainController(mainController);
-        threadPoolEnd.submit(scoreThread);
 
+        threadPoolEnd.submit(scoreThread);
         threadPoolEnd.shutdown();
     }
 }

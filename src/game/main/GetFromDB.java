@@ -17,7 +17,7 @@ public class GetFromDB implements Runnable{
 
     @Override
     public void run() {
-        //sending data to database
+        //getting data from database
         try {
             start.await();
         } catch (InterruptedException e) {

@@ -13,8 +13,14 @@ public class Game extends Thread{
     private Board borad;
     private GridPane gridPane;
     private Label[][] labels;
+    private Controls controls;
+
     public Game(GridPane gridPane) {
         this.gridPane = gridPane;
+    }
+
+    public Controls getControls() {
+        return controls;
     }
 
     @Override
@@ -39,8 +45,8 @@ public class Game extends Thread{
                 }
             }
         }
-
-        this.gridPane.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new Controls());
+        controls = new Controls();
+        this.gridPane.getScene().addEventFilter(KeyEvent.KEY_PRESSED, controls);
     }
 
 
