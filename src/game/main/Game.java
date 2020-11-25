@@ -1,5 +1,7 @@
 package game.main;
 
+import game.controllers.GameController;
+import game.controllers.ScoreController;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -11,9 +13,11 @@ public class Game extends Thread{
     private final GridPane gridPane;
     private Label[][] labels = {};
     private Controls controls;
+    private GameController gameController;
 
-    public Game(GridPane gridPane) {
+    public Game(GridPane gridPane, GameController gc) {
         this.gridPane = gridPane;
+        this.gameController = gc;
     }
 
     public Controls getControls() {
@@ -66,208 +70,251 @@ public class Game extends Thread{
         }
     }
 
-    void moveUP(){
-
+    public boolean canMove(){
+        int counter = 0;
         for(int i=0;i<4;i++) {
             for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
+                if(labels[i][j].getText() != ""){
+                    counter++;
+                }
+                if(i<2 && j<2){
+                    if(labels[i][j].getText() == labels[i][j+1].getText()){
+                        return true;
+                    }
+                    else if(labels[i][j].getText() == labels[i+1][j].getText()){
+                        return true;
+                    }
+                }
             }
         }
+        if(counter==16){
+            return false;
+        }
+        return true;
+    }
 
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 3; j++) {
-                if(labels[i][j].getText() == ""){
-                    System.out.println("Pozycjaijwczesniej " + i + ":" + j + "->" + labels[i][j].getText());
-                    break;
+    void moveUP(){
+        if(canMove()){
+            for(int i=0;i<4;i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
                 }
-                for (int k = j + 1; k < 4; k++) {
-                    System.out.println("Pozycjaij " + i + ":" + j + "->" + labels[i][j].getText());
-                    System.out.println("Pozycjaik " + i + ":" + k + "->" + labels[i][k].getText());
-                    if(labels[i][k].getText() == ""){
-                        System.out.println("if");
-                    }
-                    else if(Integer.parseInt(labels[i][j].getText()) == Integer.parseInt(labels[i][k].getText())){
-                        int newV = Integer.parseInt(labels[i][j].getText()) * 2;
-                        labels[i][j].setText(String.valueOf(newV));
-                        labels[i][k].setText("");
-                        setBackground(labels[i][j]);
-                        setBackground(labels[i][k]);
-                    }
-                    else if(Integer.parseInt(labels[i][j].getText()) != Integer.parseInt(labels[i][k].getText())){
-                        System.out.println("elseif");
+            }
+
+            for(int i=0;i<4;i++) {
+                for (int j = 0; j < 3; j++) {
+                    if(labels[i][j].getText() == ""){
+                        System.out.println("Pozycjaijwczesniej " + i + ":" + j + "->" + labels[i][j].getText());
                         break;
                     }
+                    for (int k = j + 1; k < 4; k++) {
+                        System.out.println("Pozycjaij " + i + ":" + j + "->" + labels[i][j].getText());
+                        System.out.println("Pozycjaik " + i + ":" + k + "->" + labels[i][k].getText());
+                        if(labels[i][k].getText() == ""){
+                            System.out.println("if");
+                        }
+                        else if(Integer.parseInt(labels[i][j].getText()) == Integer.parseInt(labels[i][k].getText())){
+                            int newV = Integer.parseInt(labels[i][j].getText()) * 2;
+                            labels[i][j].setText(String.valueOf(newV));
+                            labels[i][k].setText("");
+                            setBackground(labels[i][j]);
+                            setBackground(labels[i][k]);
+                            int newScore = Integer.parseInt(gameController.getScoreLabel().getText()) + newV;
+                            gameController.setScoreLabel(String.valueOf(newScore));
+                        }
+                        else if(Integer.parseInt(labels[i][j].getText()) != Integer.parseInt(labels[i][k].getText())){
+                            System.out.println("elseif");
+                            break;
+                        }
+                    }
                 }
-            }
-            for(int n=0;n<3;n++) {
-                for (int j = 3; j > 0; j--) {
-                    if (labels[i][j].getText() != "" && labels[i][j - 1].getText() == "") {
-                        labels[i][j - 1].setText(labels[i][j].getText());
-                        setBackground(labels[i][j - 1]);
-                        labels[i][j].setText("");
-                        setBackground(labels[i][j]);
+                for(int n=0;n<3;n++) {
+                    for (int j = 3; j > 0; j--) {
+                        if (labels[i][j].getText() != "" && labels[i][j - 1].getText() == "") {
+                            labels[i][j - 1].setText(labels[i][j].getText());
+                            setBackground(labels[i][j - 1]);
+                            labels[i][j].setText("");
+                            setBackground(labels[i][j]);
+                        }
                     }
                 }
             }
-        }
-
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+            for(int i=0;i<4;i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+                }
             }
+            addRandom();
         }
-        addRandom();
+        else{
+            gameController.gameOver();
+        }
     }
 
     void moveDOWN(){
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
-            }
-        }
-
-        for(int i=0;i<4;i++) {
-            for (int j = 3; j>0 ; j--) {
-                if(labels[i][j].getText() == ""){
-                    System.out.println("Pozycjaijwczesniej " + i + ":" + j + "->" + labels[i][j].getText());
-                    break;
+        if(canMove()) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
                 }
-                for (int k = j - 1; k >= 0; k--) {
-                    System.out.println("Pozycjaij " + i + ":" + j + "->" + labels[i][j].getText());
-                    System.out.println("Pozycjaik " + i + ":" + k + "->" + labels[i][k].getText());
-                    if(labels[i][k].getText() == ""){
-                        System.out.println("if");
-                    }
-                    else if(Integer.parseInt(labels[i][j].getText()) == Integer.parseInt(labels[i][k].getText())){
-                        int newV = Integer.parseInt(labels[i][j].getText()) * 2;
-                        labels[i][j].setText(String.valueOf(newV));
-                        labels[i][k].setText("");
-                        setBackground(labels[i][j]);
-                        setBackground(labels[i][k]);
-                    }
-                    else if(Integer.parseInt(labels[i][j].getText()) != Integer.parseInt(labels[i][k].getText())){
-                        System.out.println("elseif");
+            }
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 3; j > 0; j--) {
+                    if (labels[i][j].getText() == "") {
+                        System.out.println("Pozycjaijwczesniej " + i + ":" + j + "->" + labels[i][j].getText());
                         break;
                     }
+                    for (int k = j - 1; k >= 0; k--) {
+                        System.out.println("Pozycjaij " + i + ":" + j + "->" + labels[i][j].getText());
+                        System.out.println("Pozycjaik " + i + ":" + k + "->" + labels[i][k].getText());
+                        if (labels[i][k].getText() == "") {
+                            System.out.println("if");
+                        } else if (Integer.parseInt(labels[i][j].getText()) == Integer.parseInt(labels[i][k].getText())) {
+                            int newV = Integer.parseInt(labels[i][j].getText()) * 2;
+                            labels[i][j].setText(String.valueOf(newV));
+                            labels[i][k].setText("");
+                            setBackground(labels[i][j]);
+                            setBackground(labels[i][k]);
+                            int newScore = Integer.parseInt(gameController.getScoreLabel().getText()) + newV;
+                            gameController.setScoreLabel(String.valueOf(newScore));
+                        } else if (Integer.parseInt(labels[i][j].getText()) != Integer.parseInt(labels[i][k].getText())) {
+                            System.out.println("elseif");
+                            break;
+                        }
+                    }
                 }
-            }
-            for(int n=3; n>0 ;n--) {
-                for (int j = 0; j < 3; j++) {
-                    if (labels[i][j].getText() != "" && labels[i][j + 1].getText() == "") {
-                        labels[i][j + 1].setText(labels[i][j].getText());
-                        setBackground(labels[i][j + 1]);
-                        labels[i][j].setText("");
-                        setBackground(labels[i][j]);
+                for (int n = 3; n > 0; n--) {
+                    for (int j = 0; j < 3; j++) {
+                        if (labels[i][j].getText() != "" && labels[i][j + 1].getText() == "") {
+                            labels[i][j + 1].setText(labels[i][j].getText());
+                            setBackground(labels[i][j + 1]);
+                            labels[i][j].setText("");
+                            setBackground(labels[i][j]);
+                        }
                     }
                 }
             }
-        }
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+            for(int i=0;i<4;i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+                }
             }
+            addRandom();
         }
-        addRandom();
+        else{
+            gameController.gameOver();
+        }
     }
     void moveLEFT(){
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
-            }
-        }
-
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 3; j++) {
-                if(labels[j][i].getText() == ""){
-                    break;
+        if(canMove()) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
                 }
-                for (int k = j + 1; k < 4; k++) {
-                    System.out.println("Pozycjaij " + j + ":" + i + "->" + labels[j][i].getText());
-                    System.out.println("Pozycjaik " + k + ":" + i + "->" + labels[k][i].getText());
-                    if(labels[k][i].getText() == ""){
-                        System.out.println("if");
-                    }
-                    else if(Integer.parseInt(labels[j][i].getText()) == Integer.parseInt(labels[k][i].getText())){
-                        int newV = Integer.parseInt(labels[j][i].getText()) * 2;
-                        labels[j][i].setText(String.valueOf(newV));
-                        labels[k][i].setText("");
-                        setBackground(labels[j][i]);
-                        setBackground(labels[k][i]);
-                    }
-                    else if(Integer.parseInt(labels[j][i].getText()) != Integer.parseInt(labels[k][i].getText())){
-                        System.out.println("elseif");
+            }
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (labels[j][i].getText() == "") {
                         break;
                     }
+                    for (int k = j + 1; k < 4; k++) {
+                        System.out.println("Pozycjaij " + j + ":" + i + "->" + labels[j][i].getText());
+                        System.out.println("Pozycjaik " + k + ":" + i + "->" + labels[k][i].getText());
+                        if (labels[k][i].getText() == "") {
+                            System.out.println("if");
+                        } else if (Integer.parseInt(labels[j][i].getText()) == Integer.parseInt(labels[k][i].getText())) {
+                            int newV = Integer.parseInt(labels[j][i].getText()) * 2;
+                            labels[j][i].setText(String.valueOf(newV));
+                            labels[k][i].setText("");
+                            setBackground(labels[j][i]);
+                            setBackground(labels[k][i]);
+                            int newScore = Integer.parseInt(gameController.getScoreLabel().getText()) + newV;
+                            gameController.setScoreLabel(String.valueOf(newScore));
+                        } else if (Integer.parseInt(labels[j][i].getText()) != Integer.parseInt(labels[k][i].getText())) {
+                            System.out.println("elseif");
+                            break;
+                        }
+                    }
                 }
-            }
-            for(int n=0;n<3;n++) {
-                for (int j = 3; j > 0 ; j--) {
-                    if (labels[j][i].getText() != "" && labels[j - 1][i].getText() == "") {
-                        labels[j - 1][i].setText(labels[j][i].getText());
-                        setBackground(labels[j - 1][i]);
-                        labels[j][i].setText("");
-                        setBackground(labels[j][i]);
+                for (int n = 0; n < 3; n++) {
+                    for (int j = 3; j > 0; j--) {
+                        if (labels[j][i].getText() != "" && labels[j - 1][i].getText() == "") {
+                            labels[j - 1][i].setText(labels[j][i].getText());
+                            setBackground(labels[j - 1][i]);
+                            labels[j][i].setText("");
+                            setBackground(labels[j][i]);
+                        }
                     }
                 }
             }
-        }
 
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+                }
             }
+            addRandom();
         }
-        addRandom();
+        else{
+            gameController.gameOver();
+        }
     }
     void moveRIGHT(){
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
-            }
-        }
-
-        for(int i=0;i<4;i++) {
-            for (int j = 3; j > 0; j--) {
-                if(labels[j][i].getText() == ""){
-                    break;
+        if(canMove()) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStart " + i + ":" + j + "->" + labels[i][j].getText());
                 }
-                for (int k = j - 1; k >= 0; k--) {
-                    System.out.println("Pozycjaij " + j + ":" + i + "->" + labels[j][i].getText());
-                    System.out.println("Pozycjaik " + k + ":" + i + "->" + labels[k][i].getText());
-                    if(labels[k][i].getText() == ""){
-                        System.out.println("if");
-                    }
-                    else if(Integer.parseInt(labels[j][i].getText()) == Integer.parseInt(labels[k][i].getText())){
-                        int newV = Integer.parseInt(labels[j][i].getText()) * 2;
-                        labels[j][i].setText(String.valueOf(newV));
-                        labels[k][i].setText("");
-                        setBackground(labels[j][i]);
-                        setBackground(labels[k][i]);
-                    }
-                    else if(Integer.parseInt(labels[j][i].getText()) != Integer.parseInt(labels[k][i].getText())){
-                        System.out.println("elseif");
+            }
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 3; j > 0; j--) {
+                    if (labels[j][i].getText() == "") {
                         break;
                     }
+                    for (int k = j - 1; k >= 0; k--) {
+                        System.out.println("Pozycjaij " + j + ":" + i + "->" + labels[j][i].getText());
+                        System.out.println("Pozycjaik " + k + ":" + i + "->" + labels[k][i].getText());
+                        if (labels[k][i].getText() == "") {
+                            System.out.println("if");
+                        } else if (Integer.parseInt(labels[j][i].getText()) == Integer.parseInt(labels[k][i].getText())) {
+                            int newV = Integer.parseInt(labels[j][i].getText()) * 2;
+                            labels[j][i].setText(String.valueOf(newV));
+                            labels[k][i].setText("");
+                            setBackground(labels[j][i]);
+                            setBackground(labels[k][i]);
+                            int newScore = Integer.parseInt(gameController.getScoreLabel().getText()) + newV;
+                            gameController.setScoreLabel(String.valueOf(newScore));
+                        } else if (Integer.parseInt(labels[j][i].getText()) != Integer.parseInt(labels[k][i].getText())) {
+                            System.out.println("elseif");
+                            break;
+                        }
+                    }
                 }
-            }
-            for(int n=0;n<3;n++) {
-                for (int j = 0; j < 3; j++) {
-                    if (labels[j][i].getText() != "" && labels[j + 1][i].getText() == "") {
-                        labels[j + 1][i].setText(labels[j][i].getText());
-                        setBackground(labels[j + 1][i]);
-                        labels[j][i].setText("");
-                        setBackground(labels[j][i]);
+                for (int n = 0; n < 3; n++) {
+                    for (int j = 0; j < 3; j++) {
+                        if (labels[j][i].getText() != "" && labels[j + 1][i].getText() == "") {
+                            labels[j + 1][i].setText(labels[j][i].getText());
+                            setBackground(labels[j + 1][i]);
+                            labels[j][i].setText("");
+                            setBackground(labels[j][i]);
+                        }
                     }
                 }
             }
-        }
 
-        for(int i=0;i<4;i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    System.out.println("PozycjaStop " + i + ":" + j + "->" + labels[i][j].getText());
+                }
             }
+            addRandom();
         }
-        addRandom();
+        else{
+            gameController.gameOver();
+        }
     }
 
 

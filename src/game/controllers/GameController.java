@@ -60,11 +60,15 @@ public class GameController {
         scoreLabel.setText(text);
     }
 
+    public Label getScoreLabel() {
+        return scoreLabel;
+    }
+
     public void startGame() {
         threadPoolGame = Executors.newCachedThreadPool();
         time = new Timer(this);
         time.setTimerLabel(timerLabel);
-        game = new Game(gridPane);
+        game = new Game(gridPane, this);
         threadPoolGame.submit(time);
         threadPoolGame.submit(game);
     }
