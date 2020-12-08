@@ -8,10 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/game/fxml/MainScreen.fxml"));
         StackPane stackPane = loader.load();
         Scene scene = new Scene(stackPane, 600, 400);
@@ -20,7 +25,9 @@ public class Main extends Application {
         primaryStage.setTitle("2048game");
         primaryStage.setResizable(false);
         primaryStage.show();
-        primaryStage.setOnCloseRequest(e -> System.exit(0));
+        primaryStage.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
     }
 
 

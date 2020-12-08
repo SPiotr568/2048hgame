@@ -11,19 +11,6 @@ public class Controls implements EventHandler<KeyEvent> {
         this.game = game;
     }
 
-    //@Override
-    public void keyReleased(KeyEvent e) {}
-    //@Override
-    public void keyTyped(KeyEvent e) {}
-
-    /*public void bind() {
-        addKeyListener(this);
-    }
-
-    public void unbind() {
-        removeKeyListener(this);
-    }*/
-
     @Override
     public void handle(KeyEvent event) {
         KeyCode keyCode = event.getCode();

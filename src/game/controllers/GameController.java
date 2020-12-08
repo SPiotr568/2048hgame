@@ -78,8 +78,8 @@ public class GameController {
         gridPane.getScene().removeEventFilter(KeyEvent.KEY_PRESSED, game.getControls());
 
         threadPoolEnd = Executors.newCachedThreadPool();
-        //sent score to db
-        sendToDBThread = new SendToDB();
+        //send score to db
+        sendToDBThread = new SendToDB(nick, scoreLabel.getText());
         threadPoolEnd.submit(sendToDBThread);
 
         //show ScoreScreen

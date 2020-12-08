@@ -1,7 +1,6 @@
 package game.main;
 
 import game.controllers.GameController;
-import game.controllers.ScoreController;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -77,7 +76,7 @@ public class Game extends Thread{
                 if(labels[i][j].getText() != ""){
                     counter++;
                 }
-                if(i<2 && j<2){
+                if(i<3 && j<3){
                     if(labels[i][j].getText() == labels[i][j+1].getText()){
                         return true;
                     }

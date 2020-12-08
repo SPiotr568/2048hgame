@@ -15,5 +15,10 @@
          </font>
       </Label>
       <TableView fx:id="resultsTable" layoutX="25.0" layoutY="53.0" prefHeight="290.0" prefWidth="551.0" />
+      <Label fx:id="unavailable" alignment="CENTER" layoutX="24.0" layoutY="112.0" prefHeight="95.0" prefWidth="551.0">
+         <font>
+            <Font size="58.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
