@@ -5,12 +5,10 @@ import game.main.ResultData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.LoadException;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -23,7 +21,6 @@ public class ResultsController {
     private CountDownLatch stopCdl;
     private int numberOfResults;
     private String [][] resultTab = new String[10][3];
-
 
     @FXML
     private TableView resultsTable;
@@ -57,15 +54,12 @@ public class ResultsController {
             stopCdl = new CountDownLatch(numberOfResults);
             for(int i = 0; i<numberOfResults; i++){
                 new Thread(new GetFromDB(startCdl, stopCdl, i, resultTab, socket, writer)).start();
-                Thread.sleep(5);
+                Thread.sleep(30);
             }
             startCdl.countDown();
 
-            try {
-                stopCdl.await();
-            } catch (InterruptedException ex) {
-                System.out.println("Error with countdownlatch: " + ex);
-            }
+            stopCdl.await();
+
             writer.println("STOP");
             socket.close();
         } catch (UnknownHostException unknowHostEx) {

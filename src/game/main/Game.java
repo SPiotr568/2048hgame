@@ -89,6 +89,7 @@ public class Game extends Thread{
         if(counter==16){
             return false;
         }
+
         return true;
     }
 

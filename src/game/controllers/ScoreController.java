@@ -21,9 +21,13 @@ public class ScoreController {
     @FXML
     private Label nickLabel;
 
+    @FXML
+    private Label dbsendLabel;
+
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
+
 
     public void setScore(String score) {
         this.score = score;
@@ -74,5 +78,11 @@ public class ScoreController {
         gameController.setNick(nick);
         Pane finalPane = pane;
         Platform.runLater( () -> mainController.setScreen(finalPane));
+    }
+
+    public void setDbsend(boolean dbSend) {
+        if(dbSend == false){
+            dbsendLabel.setText("Server with database is not available");
+        }
     }
 }

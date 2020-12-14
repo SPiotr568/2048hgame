@@ -33,16 +33,29 @@ public class GetFromDB implements Runnable{
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-        String a = null;
+        String res = null;
         try {
-            a = reader.readLine();
+            res = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println(a);
+        System.out.println(res);
+        if(!res.isEmpty()){
+            String[] req = res.split(" ");
+            String nick = req[0];
+            String score = req[1];
+            String date = req[2] + " " + req[3];
+            tab[i][0]=nick;
+            tab[i][1]=score;
+            tab[i][2]=date;
+        }
+        else{
+            for(int j=0;j<3;j++){
+                tab[i][j]="";
+            }
+        }
         System.out.println("stop " + i);
-
 
         //getting data from database
         try {
@@ -52,9 +65,8 @@ public class GetFromDB implements Runnable{
             return;
         }
         System.out.println("Getting data from database!");
-        for(int x=0;x<3;x++){
-            tab[i][x]=a;
-        }
+
+
         stop.countDown();
     }
 }

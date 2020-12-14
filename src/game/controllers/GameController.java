@@ -7,6 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -74,6 +78,16 @@ public class GameController {
     }
 
     public void gameOver() {
+        boolean dbSend = false;
+        try (Socket socket = new Socket("localhost", 2761)){
+            dbSend = true;
+            socket.close();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         threadPoolGame.shutdownNow();
         gridPane.getScene().removeEventFilter(KeyEvent.KEY_PRESSED, game.getControls());
 
@@ -83,7 +97,7 @@ public class GameController {
         threadPoolEnd.submit(sendToDBThread);
 
         //show ScoreScreen
-        scoreThread = new ShowScore(scoreLabel.getText(), nick);
+        scoreThread = new ShowScore(scoreLabel.getText(), nick, dbSend);
         scoreThread.setMainController(mainController);
 
         threadPoolEnd.submit(scoreThread);

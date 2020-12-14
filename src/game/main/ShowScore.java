@@ -13,10 +13,12 @@ public class ShowScore extends Thread {
     private MainController mainController;
     private String nick;
     private String score;
+    private boolean dbSend;
 
-    public ShowScore(String score, String nick) {
+    public ShowScore(String score, String nick, boolean dbSend) {
         this.nick = nick;
         this.score = score;
+        this.dbSend = dbSend;
     }
 
     public void setMainController(MainController mainController) {
@@ -36,6 +38,7 @@ public class ShowScore extends Thread {
         scoreController.setMainController(mainController);
         scoreController.setNick(nick);
         scoreController.setScore(score);
+        scoreController.setDbsend(dbSend);
         Pane finalPane = pane;
         Platform.runLater(() -> mainController.setScreen(finalPane));
     }

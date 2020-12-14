@@ -30,9 +30,6 @@ public class Timer extends Thread{
             while(time<10000 && !exit){
                 time += 1;
                 Thread.sleep(1000);
-                if(time>2){
-                    gameController.gameOver();
-                }
                 setTimer(time);
             }
         } catch (InterruptedException e) {
